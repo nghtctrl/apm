@@ -1,9 +1,7 @@
 import { MouseEventHandler, useContext } from 'react';
-import { TabAppBar } from '../../control/TabAppBar';
-import { TabActions } from '../../control/TabActions';
 import { GrowingSpacer } from '../../control/GrowingSpacer';
 import { LightTooltip } from '../../control/LightTooltip';
-import { IconButton } from '@mui/material';
+import { Box, IconButton } from '@mui/material';
 import FilterMenu, { ISTFilterState } from './filterMenu';
 import { PlanTabSelect } from './PlanTabSelect';
 import { useGlobal } from '../../context/useGlobal';
@@ -53,40 +51,47 @@ export const PlanBar = (props: IProps) => {
   const t: IPlanSheetStrings = useSelector(planSheetSelector, shallowEqual);
 
   return (
-    <TabAppBar position="fixed" color="default" mobileBar={true}>
-      <TabActions>
-        <PlanTabSelect />
-        <GrowingSpacer />
-        {data.length > 1 && !offline && !flat && (
-          <LightTooltip
-            sx={{ backgroundColor: 'transparent' }}
-            title={
-              !publishingOn || hidePublishing
-                ? t.showPublishing
-                : t.hidePublishing
-            }
-          >
-            <IconButton onClick={handlePublishToggle}>
-              {!publishingOn || hidePublishing ? (
-                <PublishOnIcon sx={{ color: 'primary.light' }} />
-              ) : (
-                <PublishOffIcon sx={{ color: 'primary.light' }} />
-              )}
-            </IconButton>
-          </LightTooltip>
-        )}
-        <FilterMenu
-          canSetDefault={canSetDefault}
-          state={filterState}
-          onFilterChange={onFilterChange}
-          orgSteps={orgSteps}
-          minimumSection={minimumSection}
-          maximumSection={maximumSection}
-          filtered={filtered}
-          hidePublishing={hidePublishing}
-          disabled={!filtered && rowInfo.length < 2}
-        />
-      </TabActions>
-    </TabAppBar>
+    <Box
+      sx={{
+        display: 'flex',
+        py: 1,
+        px: 1.5,
+        backgroundColor: 'custom.headerBackground',
+        borderBottom: '1px solid',
+        borderColor: 'divider',
+      }}
+    >
+      <PlanTabSelect />
+      <GrowingSpacer />
+      {data.length > 1 && !offline && !flat && (
+        <LightTooltip
+          sx={{ backgroundColor: 'transparent' }}
+          title={
+            !publishingOn || hidePublishing
+              ? t.showPublishing
+              : t.hidePublishing
+          }
+        >
+          <IconButton onClick={handlePublishToggle}>
+            {!publishingOn || hidePublishing ? (
+              <PublishOnIcon sx={{ color: 'primary.light' }} />
+            ) : (
+              <PublishOffIcon sx={{ color: 'primary.light' }} />
+            )}
+          </IconButton>
+        </LightTooltip>
+      )}
+      <FilterMenu
+        canSetDefault={canSetDefault}
+        state={filterState}
+        onFilterChange={onFilterChange}
+        orgSteps={orgSteps}
+        minimumSection={minimumSection}
+        maximumSection={maximumSection}
+        filtered={filtered}
+        hidePublishing={hidePublishing}
+        disabled={!filtered && rowInfo.length < 2}
+      />
+    </Box>
   );
 };

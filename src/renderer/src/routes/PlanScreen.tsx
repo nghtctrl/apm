@@ -8,6 +8,7 @@ import PlanTabs from '../components/PlanTabs';
 import { useUrlContext, useProjectType } from '../crud';
 import { UnsavedContext } from '../context/UnsavedContext';
 import StickyRedirect from '../components/StickyRedirect';
+import { HeadHeight } from '../layout';
 
 export const PlanScreen = () => {
   const { pathname } = useLocation();
@@ -49,7 +50,10 @@ export const PlanScreen = () => {
     <Box sx={{ width: '100%' }}>
       <AppHead switchTo={false} />
       <PlanProvider>
-        <Box id="PlanScreen" sx={{ display: 'flex', paddingTop: '80px' }}>
+        <Box
+          id="PlanScreen"
+          sx={{ display: 'flex', paddingTop: `${HeadHeight}px` }}
+        >
           <PlanTabs checkSaved={checkSavedFn} />
         </Box>
       </PlanProvider>

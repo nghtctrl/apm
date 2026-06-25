@@ -14,7 +14,6 @@ import { PassageCard } from './PassageCard';
 import StickyRedirect from '../StickyRedirect';
 import { useParams } from 'react-router-dom';
 import { GraphicAvatar } from './GraphicAvatar';
-import { ActionHeight, GrowingSpacer } from '../../control';
 import {
   isPersonalTeam,
   PublishDestinationEnum,
@@ -92,8 +91,7 @@ export function PlanView(props: IProps) {
         display: 'flex',
         flexDirection: 'row',
         gap: '1rem',
-        padding: '0 1.5rem',
-        paddingTop: `calc(${ActionHeight}px + 16px)`,
+        padding: '1.5rem',
       }}
     >
       {rowInfo.map((row, i) => {
@@ -136,7 +134,6 @@ export function PlanView(props: IProps) {
               ) : (
                 <Typography variant="h5">{getDescription(row)}</Typography>
               )}
-              <GrowingSpacer />
               {row.passageType === 'PASS' && publishingView ? (
                 <Button
                   variant="outlined"

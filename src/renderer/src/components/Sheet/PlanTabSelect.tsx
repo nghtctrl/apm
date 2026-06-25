@@ -1,9 +1,8 @@
 import { useContext, useMemo, useState } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import { IPlanTabsStrings } from '@model/index';
-import { Menu, MenuItem } from '@mui/material';
-import DropDownIcon from '@mui/icons-material/ArrowDropDown';
-import { AltButton } from '../../control/AltButton';
+import { Box, Button, Menu, MenuItem } from '@mui/material';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { planTabsSelector } from '../../selector';
 import { useOrganizedBy } from '../../crud/useOrganizedBy';
 import { useShowAssignment } from '../../crud/useShowAssignment';
@@ -51,15 +50,26 @@ export const PlanTabSelect = () => {
 
   return (
     <>
-      <AltButton
+      <Button
         id="planTabSelect"
+        size="small"
         aria-owns={actionMenuItem ? 'action-menu' : undefined}
         aria-label={t.sectionsPassages}
+        endIcon={<ArrowDropDownIcon />}
         onClick={handleMenu}
       >
-        {options[optionIndex] ?? options[0]}
-        <DropDownIcon sx={{ ml: 1 }} />
-      </AltButton>
+        <Box
+          component="span"
+          sx={{
+            minWidth: 0,
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          {options[optionIndex] ?? options[0]}
+        </Box>
+      </Button>
       <Menu
         id="import-export-menu"
         anchorEl={actionMenuItem}

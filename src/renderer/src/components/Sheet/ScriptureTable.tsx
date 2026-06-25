@@ -143,6 +143,7 @@ import bookSortJson from '../../assets/akuosort.json';
 import { PlanView } from './PlanView';
 import { addPt } from '../../utils/addPt';
 import { PlanBar } from './PlanBar';
+import { HeadHeight } from '../../layout';
 import GraphicPicker from '../GraphicPicker';
 import { MediaUploadControlsRef } from '../../components/MediaUploadContent';
 import { useComputeRef } from '../../components/PassageDetail/Internalization/useComputeRef';
@@ -2239,7 +2240,20 @@ export function ScriptureTable(props: IProps) {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
       {isMobile ? (
-        <>
+        <Box
+          sx={{
+            width: '100%',
+            minWidth: 0,
+            // 100vh on mobile often exceeds the *visible* viewport (URL bar / Samsung browser chrome),
+            // so the scroll area sits below the fold. 100dvh tracks the dynamic viewport.
+            height: `calc(100vh - ${HeadHeight}px)`,
+            '@supports (height: 100dvh)': {
+              height: `calc(100dvh - ${HeadHeight}px)`,
+            },
+            display: 'flex',
+            flexDirection: 'column',
+          }}
+        >
           <PlanBar
             publishingOn={publishingOn}
             hidePublishing={hidePublishing}
@@ -2254,18 +2268,27 @@ export function ScriptureTable(props: IProps) {
             filtered={filtered}
             rowInfo={rowinfo}
           />
-          <PlanView
-            rowInfo={rowinfo}
-            publishingView={publishingOn && !hidePublishing}
-            handlePublish={(
-              i: number,
-              destinations: PublishDestinationEnum[]
-            ) => {
-              setSectionPublish(i, destinations);
+          <Box
+            sx={{
+              flex: 1,
+              minWidth: 0,
+              overflowX: 'hidden',
+              overflowY: 'auto',
             }}
-            handleGraphic={canPublish ? handleGraphic : undefined}
-          />
-        </>
+          >
+            <PlanView
+              rowInfo={rowinfo}
+              publishingView={publishingOn && !hidePublishing}
+              handlePublish={(
+                i: number,
+                destinations: PublishDestinationEnum[]
+              ) => {
+                setSectionPublish(i, destinations);
+              }}
+              handleGraphic={canPublish ? handleGraphic : undefined}
+            />
+          </Box>
+        </Box>
       ) : (
         <PlanSheet
           {...props}
